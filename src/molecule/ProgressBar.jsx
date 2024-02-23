@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 
-function ProgresBar({timeOut,timeOutFunction}){
+function ProgresBar({timeOut,timeOutFunction,mode}){
     const [curValue,setCurValue]=useState(timeOut)
 
 
-    //wrapping timeout in useEfffects to have multiple timers 
+    //wrapping timeout in useEfffects to have multiple timers
+
     useEffect(()=>{
-        console.log('setting out')
+
         const timer=setTimeout(timeOutFunction,timeOut)
         return ()=>{
             clearTimeout(timer)
@@ -14,20 +15,21 @@ function ProgresBar({timeOut,timeOutFunction}){
     } ,[timeOut,timeOutFunction])
 
 useEffect(()=>{
-    console.log('setting in')
+
     const interval=setInterval(()=>{
        
   setCurValue((curValue)=>curValue-100)
     },100)
 
     return ()=>{    
+
 clearInterval(interval)
 
     }
-},[])
+},[timeOut])
 
 
-return <progress id="question-time"  max={timeOut} value={curValue}/>
+return <progress id="question-time"  max={timeOut} value={curValue} className={mode}/>
 }
 
 export default ProgresBar
